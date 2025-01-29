@@ -6,7 +6,7 @@ sudo pacman -Syu --noconfirm
 
 # Install pacman packages
 echo "Installing pacman packages..."
-sudo pacman -S --noconfirm --needed hyprland kitty git steam code neovim hyprland playerctl wofi flatpak thunar
+sudo pacman -S --noconfirm --needed hyprland kitty git steam code neovim playerctl wofi flatpak thunar
 
 # Check if yay is already installed, and install it if not
 if ! command -v yay &>/dev/null; then
