@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# update system
+echo "Updating system..."
+sudo pacman -Syu --noconfirm
+
+# install pacman packages
+echo "Installing pacman packages..."
+sudo pacman -S --noconfirm --needed hyprland kitty git steam code neovim hyprland playerctl wofi flatpak thunar
+
+# get yay for AUR
+echo "Getting yay for AUR packages..."
+
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+
+echo "Done"
+
+echo "AUR packages may need dependencies installed, this may take a bit..."
+
+# install AUR packages
+yay -S --noconfirm ags-hyprpanel-git brave-bin vesktop
+
+echo "Done"
+
+# Hyprland configuration copy prompt
+read -p "Do you want to copy Hyprland files to ~/.config? (y/n): " answer
+
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+  echo "Copying files to ~/.config..."
+
+  git clone https://github.com/31nk/hyprland.git
+  cp -r hyprland/ ~/.config/
+
+elif [[ "$answer" == "n" || "$answer" == "N" ]]; then
+  echo "Skipping file copy."
+
+else
+  echo "Invalid input. Please enter 'y' or 'n'."
+  exit 1
+fi
+
+echo "Done."
