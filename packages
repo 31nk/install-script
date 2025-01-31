@@ -6,15 +6,17 @@ sudo pacman -Syu --noconfirm
 
 # Install pacman packages
 echo "Installing pacman packages..."
-sudo pacman -S --noconfirm --needed hyprland kitty git steam code neovim playerctl wofi flatpak thunar os-prober swww neovide fastfetch steam neovide
+sudo pacman -S --noconfirm --needed hyprland kitty git steam code neovim playerctl \
+wofi flatpak thunar os-prober swww neovide fastfetch
 
 # Check if paru is already installed, and install it if not
 if ! command -v paru &>/dev/null; then
   echo "Getting paru for AUR packages..."
+  sudo pacman -S --needed --noconfirm base-devel # Ensure necessary tools are installed
   git clone https://aur.archlinux.org/paru.git
-  cd yay || exit 1 # Exit if we can't change to the paru directory
-  makepkg -si
-  cd .. || exit 1 # Return to previous directory
+  cd paru || exit 1  # Fix: Correct directory name
+  makepkg -si --noconfirm
+  cd .. || exit 1    # Return to previous directory
 else
   echo "paru is already installed."
 fi
@@ -24,11 +26,11 @@ echo "Done"
 echo "AUR packages may need dependencies installed, this may take a bit..."
 
 # Install AUR packages
-paru -S --noconfirm ags-hyprpanel-git brave-bin vesktop
+paru -S --noconfirm --needed ags-hyprpanel-git brave-bin vesktop
 
 echo "Done"
 
-echo "Copying hyprland config files"
+echo "Copying Hyprland config files"
 
 # Clone Hyprland configuration repo
 git clone https://github.com/31nk/hyprland.git
@@ -38,9 +40,9 @@ read -p "Do you want to copy Hyprland files to ~/.config? (y/n): " answer
 
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   echo "Copying files to ~/.config..."
-  cd hyprland || exit 1 # Ensure we are in the correct directory
-  cp -r * ~/.config/    # Copy all files to ~/.config, avoid overwriting specific files
-  cd .. || exit 1       # Return to the previous directory
+  cd hyprland || exit 1  # Ensure we are in the correct directory
+  cp -rn * ~/.config/    # Fix: Avoid overwriting existing files
+  cd .. || exit 1        # Return to the previous directory
 elif [[ "$answer" == "n" || "$answer" == "N" ]]; then
   echo "Skipping file copy."
 else
