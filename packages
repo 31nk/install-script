@@ -9,16 +9,16 @@ echo "Installing pacman packages..."
 sudo pacman -S --noconfirm --needed hyprland kitty git steam code neovim playerctl \
 wofi flatpak thunar os-prober swww neovide fastfetch
 
-# Check if paru is already installed, and install it if not
-if ! command -v paru &>/dev/null; then
-  echo "Getting paru for AUR packages..."
+# Check if yay is already installed, and install it if not
+if ! command -v yay &>/dev/null; then
+  echo "Getting yay for AUR packages..."
   sudo pacman -S --needed --noconfirm base-devel # Ensure necessary tools are installed
-  git clone https://aur.archlinux.org/paru.git
-  cd paru || exit 1  # Fix: Correct directory name
+  git clone https://aur.archlinux.org/yay.git
+  cd yay || exit 1  # Fix: Correct directory name
   makepkg -si --noconfirm
   cd .. || exit 1    # Return to previous directory
 else
-  echo "paru is already installed."
+  echo "yay is already installed."
 fi
 
 echo "Done"
@@ -26,7 +26,7 @@ echo "Done"
 echo "AUR packages may need dependencies installed, this may take a bit..."
 
 # Install AUR packages
-paru -S --noconfirm --needed ags-hyprpanel-git brave-bin vesktop
+yay -S --noconfirm --needed ags-hyprpanel-git brave-bin vesktop
 
 echo "Done"
 
